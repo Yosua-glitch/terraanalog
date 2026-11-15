@@ -78,6 +78,11 @@ export default function App() {
     [visibleSites, targetFilter]
   );
 
+  const compareSiteIds = useMemo(
+    () => compareSitesList.map((s) => s.id),
+    [compareSitesList]
+  );
+
   const issueCommand = useCallback((cmd: Omit<GlobeCommand, 'seq'>) => {
     cmdSeqRef.current += 1;
     setGlobeCommand({ ...cmd, seq: cmdSeqRef.current });
@@ -354,7 +359,7 @@ export default function App() {
           topSiteId={topVisibleSiteId}
           selectedSiteId={selectedSite?.id ?? null}
           compareMode={compareMode}
-          compareSiteIds={compareSitesList.map((s) => s.id)}
+          compareSiteIds={compareSiteIds}
           visualStyle={visualStyle}
           colorTheme={colorTheme}
           isVisible={isMapVisible}

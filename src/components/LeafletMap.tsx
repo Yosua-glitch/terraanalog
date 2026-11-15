@@ -259,6 +259,11 @@ export const LeafletMap: React.FC<LeafletMapProps> = ({
   const cartoonGroupRef = useRef<L.LayerGroup | null>(null);
   const markersLayerRef = useRef<L.LayerGroup | null>(null);
   const lastSeqRef = useRef(-1);
+  const onSelectSiteRef = useRef(onSelectSite);
+
+  useEffect(() => {
+    onSelectSiteRef.current = onSelectSite;
+  }, [onSelectSite]);
 
   useEffect(() => {
     if (!mapContainerRef.current || mapInstanceRef.current) return;
@@ -509,12 +514,12 @@ export const LeafletMap: React.FC<LeafletMapProps> = ({
       });
 
       marker.on('click', () => {
-        onSelectSite(site);
+        onSelectSiteRef.current(site);
       });
 
       markersLayer.addLayer(marker);
     });
-  }, [sites, targetFilter, topSiteId, selectedSiteId, compareMode, compareSiteIds, visualStyle, colorTheme, onSelectSite]);
+  }, [sites, targetFilter, topSiteId, selectedSiteId, compareMode, compareSiteIds, visualStyle, colorTheme]);
 
   useEffect(() => {
     const map = mapInstanceRef.current;
