@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react';
-import { ArrowLeft, Database, ExternalLink, Search } from 'lucide-react';
+import { ArrowLeft, Database, ExternalLink, FileText, Search } from 'lucide-react';
 import { ANALOG_SITES } from '../data/analogSites';
 import { DATA_SOURCES, DataBodyFilter } from '../data/dataSources';
 import { filterDataSources } from '../utils/analogFilter';
@@ -36,33 +36,48 @@ export const DataSourcesPage: React.FC<DataSourcesPageProps> = ({
     >
       <div className="max-w-6xl mx-auto px-4 md:px-8 space-y-6">
         {/* Header */}
-        <div className="flex flex-wrap items-start justify-between gap-4 pt-3">
-          <div className="space-y-2 max-w-3xl">
-            <div className="flex items-center gap-3 flex-wrap">
-              <button
-                type="button"
-                onClick={onBackToMap}
-                data-testid="back-to-map-from-sources"
-                className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs transition-colors ${tokens.secondaryButton}`}
-              >
-                <ArrowLeft className="w-3.5 h-3.5" />
-                <span>Kembali ke Peta</span>
-              </button>
-              <div className={`flex items-center gap-1.5 text-xs font-medium ${tokens.accentText}`}>
-                <Database className="w-4 h-4" />
-                <span>Inventaris Data Terbuka Bumi, Bulan & Mars</span>
-              </div>
+        <div className="space-y-3 pt-3">
+          <div className="flex items-center justify-between gap-x-3 gap-y-2 flex-wrap">
+            <button
+              type="button"
+              onClick={onBackToMap}
+              data-testid="back-to-map-from-sources"
+              className={`order-1 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs transition-colors shrink-0 ${tokens.secondaryButton}`}
+            >
+              <ArrowLeft className="w-3.5 h-3.5" />
+              <span>Kembali ke Peta</span>
+            </button>
+
+            <div className={`order-3 md:order-2 w-full md:w-auto md:mr-auto flex items-center gap-1.5 text-xs font-medium ${tokens.accentText}`}>
+              <Database className="w-4 h-4 shrink-0" />
+              <span>Inventaris Data Terbuka Bumi, Bulan & Mars</span>
             </div>
-            <h1 className={`font-display text-2xl md:text-3xl font-extrabold tracking-tight ${tokens.heading}`}>
-              Sumber Informasi & <span className={tokens.highlighter}>Dataset Analisis</span>
-            </h1>
-            <p className={`text-sm leading-relaxed ${tokens.bodyText}`}>
-              Karakterisasi {ANALOG_SITES.length} situs analog menggunakan data penginderaan jauh terbuka dari NASA, ESA, USGS Astrogeology, JAXA, serta BIG/PVMBG Indonesia.
-            </p>
+
+            <a
+              href="./docs/analisis-data.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              data-testid="data-analysis-pdf-btn"
+              className={`order-2 md:order-3 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs transition-colors whitespace-nowrap shrink-0 ${tokens.primaryButton}`}
+            >
+              <FileText className="w-3.5 h-3.5" />
+              <span>Analisis Data</span>
+            </a>
           </div>
-          {tokens.isCartoon && (
-            <CartoonPageStickers colorTheme={colorTheme} badgeText="DATA TERBUKA NASA/ESA" />
-          )}
+
+          <div className="flex flex-wrap items-start justify-between gap-4">
+            <div className="space-y-2 max-w-3xl">
+              <h1 className={`font-display text-2xl md:text-3xl font-extrabold tracking-tight ${tokens.heading}`}>
+                Sumber Informasi & <span className={tokens.highlighter}>Dataset Analisis</span>
+              </h1>
+              <p className={`text-sm leading-relaxed ${tokens.bodyText}`}>
+                Karakterisasi {ANALOG_SITES.length} situs analog menggunakan data penginderaan jauh terbuka dari NASA, ESA, USGS Astrogeology, JAXA, serta BIG/PVMBG Indonesia.
+              </p>
+            </div>
+            {tokens.isCartoon && (
+              <CartoonPageStickers colorTheme={colorTheme} badgeText="DATA TERBUKA NASA/ESA" />
+            )}
+          </div>
         </div>
 
         {/* Filter & Search Toolbar */}
@@ -105,7 +120,7 @@ export const DataSourcesPage: React.FC<DataSourcesPageProps> = ({
           <div className={`p-4 ${tokens.card}`}>
             <div className={`font-semibold text-sm ${tokens.accentText}`}>1. Morfometri & Topografi</div>
             <p className={`mt-1.5 leading-relaxed ${tokens.bodyText}`}>
-              Gradien lereng dan kekasaran terrain dibandingkan antara DEM SRTM 30m / DEMNAS 8m dengan LRO LOLA (Bulan) dan HiRISE DTM (Mars).
+              Gradien lereng dan kekasaran terrain dibandingkan antara SRTM 30m / ASTER GDEM / DEMNAS 8m (serta ArcticDEM 2m untuk lintang &gt;60°LU) dengan LRO LOLA (Bulan) dan HiRISE DTM (Mars).
             </p>
           </div>
           <div className={`p-4 ${tokens.card}`}>
@@ -134,8 +149,8 @@ export const DataSourcesPage: React.FC<DataSourcesPageProps> = ({
                 key={src.id}
                 className={`p-5 transition-colors ${tokens.card}`}
               >
-                <div className="flex flex-wrap items-start justify-between gap-3">
-                  <div>
+                <div className="flex items-start justify-between gap-3">
+                  <div className="min-w-0 flex-1">
                     <div className={`flex items-center gap-2 text-xs flex-wrap ${tokens.mutedText}`}>
                       <span className={`font-semibold ${tokens.accentText}`}>{src.agency}</span>
                       <span aria-hidden="true">·</span>
@@ -151,7 +166,7 @@ export const DataSourcesPage: React.FC<DataSourcesPageProps> = ({
                     href={src.accessUrl.split(' / ')[0]}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs transition-colors whitespace-nowrap shrink-0 ${tokens.secondaryButton}`}
+                    className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs transition-colors whitespace-nowrap shrink-0 self-start ${tokens.secondaryButton}`}
                   >
                     Portal Resmi
                     <ExternalLink className="w-3.5 h-3.5" />
@@ -169,8 +184,17 @@ export const DataSourcesPage: React.FC<DataSourcesPageProps> = ({
                   </div>
                 </div>
 
-                <div className={`mt-3 pt-2.5 border-t flex items-center justify-between text-[11px] font-mono-tabular ${tokens.divider} ${tokens.mutedText}`}>
-                  <span>ID Dataset: {src.datasetIdentifier}</span>
+                <div className={`mt-3 pt-2.5 border-t flex flex-wrap items-center justify-between gap-2 text-[11px] ${tokens.divider} ${tokens.mutedText}`}>
+                  <span className="font-mono-tabular">ID Dataset: {src.datasetIdentifier}</span>
+                  <a
+                    href={src.referenceUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`inline-flex items-center gap-1 hover:underline ${tokens.accentText}`}
+                  >
+                    <span>Referensi: {src.scientificReference}</span>
+                    <ExternalLink className="w-3 h-3 shrink-0" />
+                  </a>
                 </div>
               </article>
             ))
