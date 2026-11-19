@@ -55,6 +55,22 @@ npm start          # build lalu jalankan di http://localhost:4173
 2. Buka **Settings > Pages > Source** lalu pilih **GitHub Actions**.
 3. Tunggu workflow "Deploy to GitHub Pages" selesai di tab **Actions**. Situs aktif di `https://USERNAME.github.io/NAMA-REPO/`.
 
+## Pasang sebagai Aplikasi (PWA)
+
+Origami adalah **Progressive Web App**: bisa dipasang di HP, tablet, dan laptop langsung dari browser, tanpa toko aplikasi. Setelah dipasang, aplikasi punya ikon sendiri dan terbuka tanpa bilah alamat. Syaratnya situs dibuka lewat **HTTPS** (GitHub Pages sudah HTTPS) atau `localhost`.
+
+| Perangkat | Cara memasang |
+| --------- | ------------- |
+| Android (HP/tablet), Chrome | Menu titik tiga > **Install app** (atau tombol **Install App** di pojok kanan atas aplikasi) |
+| iPhone / iPad, Safari | Tombol **Bagikan** > **Add to Home Screen** > **Add** (tombol **Install App** di aplikasi menampilkan petunjuknya) |
+| Windows / Mac / Linux, Chrome atau Edge | Ikon **Install** di bilah alamat, atau tombol **Install App** di aplikasi |
+
+Catatan:
+- **Peta satelit butuh internet** (tile Esri sengaja tidak disimpan). Saat offline, halaman, data situs, dan perbandingan tetap terbuka dan muncul pemberitahuan offline.
+- Shell aplikasi (HTML, JS, CSS, ikon) disimpan otomatis oleh service worker (`public/sw.js`). Versi cache dibuat otomatis tiap build, jadi setelah deploy baru, aplikasi memperbarui diri saat dibuka lagi (kadang perlu ditutup dan dibuka sekali lagi).
+- Service worker hanya aktif pada build produksi (`npm start` / hasil deploy), bukan pada `npm run dev`.
+- **Ingin file APK Android?** Setelah situs online di GitHub Pages, buka https://www.pwabuilder.com, masukkan alamat situs, lalu pilih paket Android. Alternatif: bungkus dengan Capacitor (perlu Android Studio).
+
 ## Fitur Aplikasi
 
 ### 1. Peta Interaktif Situs Analog
@@ -100,7 +116,7 @@ Klik pin atau situs di katalog untuk menerbangkan peta ke lokasi tersebut dan me
 │   ├── data/           Data situs analog, material, sumber data, garis pantai
 │   ├── types/          Token tema (gelap/terang, realistis/kartun)
 │   └── utils/          Skoring situs, pencocokan material, filter, geoMath (+ unit test)
-├── public/             Aset statis (logo, PDF analisis data, PDF pitch deck)
+├── public/             Aset statis, manifest PWA (manifest.webmanifest), service worker (sw.js), ikon (icons/)
 ├── .github/workflows/  Otomatisasi deploy ke GitHub Pages (deploy.yml)
 ├── Proposal_Origami_CyberLife_BT.docx
 ├── Origami_Pitch_Deck_Updated.pptx

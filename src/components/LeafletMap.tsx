@@ -132,7 +132,7 @@ function createPinHtml(
   const shortName = isTop ? `${baseName} (Top)` : baseName;
   const label = isCompared ? `[${compareBadge}] ${shortName}` : shortName;
 
-  // Offset Kawah Ijen and Kazumura labels below their pins so neighboring pins never collide at global zoom
+  // Offset Ijen Crater and Kazumura labels below their pins so neighboring pins never collide at global zoom
   const labelBelow =
     (site.id === 'kawah-ijen' || site.id === 'kazumura-lava-tubes') &&
     !isSelected &&
@@ -487,7 +487,7 @@ export const LeafletMap: React.FC<LeafletMapProps> = ({
       const effectiveScore = getEffectiveSimilarityScore(site, targetFilter);
       const scopeLabel =
         targetFilter === 'Moon'
-          ? 'Bulan'
+          ? 'Moon'
           : targetFilter === 'Mars'
             ? 'Mars'
             : site.targetBody;
